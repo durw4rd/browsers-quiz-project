@@ -27,7 +27,7 @@ export const initQuestionPage = () => {
   }
 
   const scoreElement = createScoreElement(currentScore);
-  
+
   userInterface.appendChild(scoreElement);
 
   document
