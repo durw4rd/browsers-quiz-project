@@ -6,6 +6,7 @@ import {
 import { createQuestionElement } from '../views/questionView.js';
 import { createAnswerElement } from '../views/answerView.js';
 import { quizData } from '../data.js';
+import { answerCheck } from '../utils/answerCheck.js';
 
 export const initQuestionPage = () => {
   const userInterface = document.getElementById(USER_INTERFACE_ID);
@@ -18,6 +19,12 @@ export const initQuestionPage = () => {
   userInterface.appendChild(questionElement);
 
   const answersListElement = document.getElementById(ANSWERS_LIST_ID);
+
+  answersListElement.addEventListener('click', function clickHandler(evt) {
+    const usersAnswer = evt.target;
+    answerCheck(usersAnswer);
+    answersListElement.removeEventListener('click', clickHandler);
+  });
 
   for (const [key, answerText] of Object.entries(currentQuestion.answers)) {
     const answerElement = createAnswerElement(key, answerText);
