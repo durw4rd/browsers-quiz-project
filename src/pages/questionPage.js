@@ -2,11 +2,15 @@ import {
   ANSWERS_LIST_ID,
   NEXT_QUESTION_BUTTON_ID,
   USER_INTERFACE_ID,
+  SCORE_VALUE_ID,
 } from '../constants.js';
 import { createQuestionElement } from '../views/questionView.js';
 import { createAnswerElement } from '../views/answerView.js';
+import { createScoreElement } from '../views/scoreView.js';
 import { quizData } from '../data.js';
 import { answerCheck } from '../utils/answerCheck.js';
+
+let currentScore = 0;
 
 export const initQuestionPage = () => {
   const userInterface = document.getElementById(USER_INTERFACE_ID);
@@ -31,6 +35,10 @@ export const initQuestionPage = () => {
     answersListElement.appendChild(answerElement);
   }
 
+  const scoreElement = createScoreElement(currentScore);
+
+  userInterface.appendChild(scoreElement);
+
   document
     .getElementById(NEXT_QUESTION_BUTTON_ID)
     .addEventListener('click', nextQuestion);
@@ -40,4 +48,11 @@ const nextQuestion = () => {
   quizData.currentQuestionIndex = quizData.currentQuestionIndex + 1;
 
   initQuestionPage();
+};
+
+const updateScoreValue = (currentQuestion, userAnswer) => {
+  if (currentQuestion.correct === userAnswer) {
+    currentScore++;
+    document.getElementById(SCORE_VALUE_ID).innerHTML = currentScore;
+  }
 };
