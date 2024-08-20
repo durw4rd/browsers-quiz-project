@@ -6,6 +6,7 @@ import { SCORE_VALUE_ID } from '../constants.js';
 export const createScoreElement = (score) => {
   const element = document.createElement('div');
   element.classList.add('score');
+  element.classList.add('score-container');
   element.innerHTML = String.raw`
   Your score: <span id="${SCORE_VALUE_ID}">${score}</span> / 10
   `;
