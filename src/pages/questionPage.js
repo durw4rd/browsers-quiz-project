@@ -9,7 +9,6 @@ import { createAnswerElement } from '../views/answerView.js';
 import { createScoreElement } from '../views/scoreView.js';
 import { quizData } from '../data.js';
 
-
 let currentScore = 0;
 
 export const initQuestionPage = () => {
@@ -50,10 +49,9 @@ const nextQuestion = () => {
   initQuestionPage();
 };
 
-
 const updateScoreValue = (currentQuestion, userAnswer) => {
-    currentScore++;
-    document.getElementById(SCORE_VALUE_ID).innerHTML = currentScore;
+  currentScore++;
+  document.getElementById(SCORE_VALUE_ID).innerHTML = currentScore;
 };
 
 const answerCheck = (usersAnswer) => {
@@ -72,7 +70,10 @@ const answerCheck = (usersAnswer) => {
 
   if (correctAnswerElement === usersAnswer) {
     usersAnswer.style.backgroundColor = 'green';
-    updateScoreValue(quizData.questions[quizData.currentQuestionIndex], usersAnswer)
+    updateScoreValue(
+      quizData.questions[quizData.currentQuestionIndex],
+      usersAnswer
+    );
   } else {
     usersAnswer.style.backgroundColor = 'red';
     correctAnswerElement.style.backgroundColor = 'green';
