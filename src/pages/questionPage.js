@@ -49,7 +49,7 @@ const nextQuestion = () => {
   initQuestionPage();
 };
 
-const updateScoreValue = (currentQuestion, userAnswer) => {
+const updateScoreValue = () => {
   currentScore++;
   document.getElementById(SCORE_VALUE_ID).innerHTML = currentScore;
 };
@@ -70,10 +70,7 @@ const answerCheck = (usersAnswer) => {
 
   if (correctAnswerElement === usersAnswer) {
     usersAnswer.style.backgroundColor = 'green';
-    updateScoreValue(
-      quizData.questions[quizData.currentQuestionIndex],
-      usersAnswer
-    );
+    updateScoreValue();
   } else {
     usersAnswer.style.backgroundColor = 'red';
     correctAnswerElement.style.backgroundColor = 'green';
