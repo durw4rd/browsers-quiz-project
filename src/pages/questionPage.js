@@ -8,7 +8,7 @@ import { createQuestionElement } from '../views/questionView.js';
 import { createAnswerElement } from '../views/answerView.js';
 import { createScoreElement } from '../views/scoreView.js';
 import { quizData } from '../data.js';
-import { answerCheck } from '../utils/answerCheck.js';
+
 
 let currentScore = 0;
 
@@ -50,9 +50,31 @@ const nextQuestion = () => {
   initQuestionPage();
 };
 
+
 const updateScoreValue = (currentQuestion, userAnswer) => {
-  if (currentQuestion.correct === userAnswer) {
     currentScore++;
     document.getElementById(SCORE_VALUE_ID).innerHTML = currentScore;
+};
+
+const answerCheck = (usersAnswer) => {
+  const correctAnswer =
+    quizData.questions[quizData.currentQuestionIndex].correct;
+  const answersListElements = document.querySelectorAll('#answers-list li');
+  let correctAnswerElement;
+
+  answersListElements.forEach((li) => {
+    if (li.dataset.key === correctAnswer) {
+      correctAnswerElement = li;
+    }
+  });
+
+  /* TODO decide about style */
+
+  if (correctAnswerElement === usersAnswer) {
+    usersAnswer.style.backgroundColor = 'green';
+    updateScoreValue(quizData.questions[quizData.currentQuestionIndex], usersAnswer)
+  } else {
+    usersAnswer.style.backgroundColor = 'red';
+    correctAnswerElement.style.backgroundColor = 'green';
   }
 };
