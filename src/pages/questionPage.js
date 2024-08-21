@@ -8,6 +8,7 @@ import { createQuestionElement } from '../views/questionView.js';
 import { createAnswerElement } from '../views/answerView.js';
 import { createScoreElement } from '../views/scoreView.js';
 import { quizData } from '../data.js';
+import { initResultPage } from './resultPage.js';
 
 let currentScore = Number(localStorage.getItem('currentScore')) || 0;
 
@@ -48,7 +49,15 @@ export const initQuestionPage = () => {
 const nextQuestion = () => {
   quizData.currentQuestionIndex = quizData.currentQuestionIndex + 1;
 
-  initQuestionPage();
+  if (quizData.currentQuestionIndex < 10) {
+    initQuestionPage();
+  } else {
+    quizData.currentQuestionIndex = 0;
+    currentScore = 0;
+    localStorage.removeItem('currentScore');
+    localStorage.removeItem('currentQuestion');
+    initResultPage();
+  }
 };
 
 const updateScoreValue = () => {
