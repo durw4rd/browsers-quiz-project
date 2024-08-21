@@ -9,9 +9,11 @@ import { createAnswerElement } from '../views/answerView.js';
 import { createScoreElement } from '../views/scoreView.js';
 import { quizData } from '../data.js';
 
-let currentScore = 0;
+let currentScore = Number(localStorage.getItem('currentScore')) || 0;
 
 export const initQuestionPage = () => {
+  localStorage.setItem('currentQuestion', quizData.currentQuestionIndex);
+
   const userInterface = document.getElementById(USER_INTERFACE_ID);
   userInterface.innerHTML = '';
 
@@ -52,6 +54,7 @@ const nextQuestion = () => {
 const updateScoreValue = () => {
   currentScore++;
   document.getElementById(SCORE_VALUE_ID).innerHTML = currentScore;
+  localStorage.setItem('currentScore', currentScore);
 };
 
 const answerCheck = (usersAnswer) => {
