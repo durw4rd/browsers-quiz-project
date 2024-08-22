@@ -170,8 +170,7 @@ ul {
     border-radius: 40% 60% 42% 58% / 41% 51% 49% 59%;
   }
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 #user-interface {
   display: flex;
   flex-direction: column;
@@ -260,10 +259,7 @@ li:hover {
   .score-container {
     font-size: 20px;
   }
-=======
-=======
-
->>>>>>> welcome page fixes
+}
 .fade-in {
   opacity: 0;
   animation: fadeIn ease-in 1s forwards;
@@ -322,10 +318,7 @@ li:hover {
 }
 
 #name-form button:hover {
-<<<<<<< HEAD
   background-color: #45a049;
->>>>>>> welcome page enhancement
-=======
   background-color: var(--light-green);
 }
 
@@ -334,8 +327,6 @@ li:hover {
   color: var(--primary-black);
   padding: 15px;
   border-radius: 8px;
-
   margin: 20px 0;
   text-align: center;
->>>>>>> welcome page fixes
 }
