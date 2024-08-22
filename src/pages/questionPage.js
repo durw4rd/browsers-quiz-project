@@ -10,6 +10,7 @@ import { createQuestionElement } from '../views/questionView.js';
 import { createAnswerElement } from '../views/answerView.js';
 import { createScoreElement } from '../views/scoreView.js';
 import { quizData } from '../data.js';
+import { initResultPage } from './resultPage.js';
 
 let currentScore = Number(localStorage.getItem('currentScore')) || 0;
 const answersLS = JSON.parse(localStorage.getItem(`selected`)) || {};
@@ -80,7 +81,19 @@ const prevQuestion = () => {
 const nextQuestion = () => {
   quizData.currentQuestionIndex = quizData.currentQuestionIndex + 1;
 
-  initQuestionPage();
+  if (quizData.currentQuestionIndex < 10) {
+    initQuestionPage();
+  } else {
+    initResultPage(currentScore);
+    quizData.currentQuestionIndex = 0;
+    currentScore = 0;
+    localStorage.removeItem('currentScore');
+    localStorage.removeItem('currentQuestion');
+
+    for (let i = 0; i < 10; i++) {
+      localStorage.removeItem(`${i}question`);
+    }
+  }
 };
 
 const skipQuestion = (evt) => {
