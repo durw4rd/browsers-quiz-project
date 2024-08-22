@@ -2,6 +2,7 @@ import {
   ANSWERS_LIST_ID,
   NEXT_QUESTION_BUTTON_ID,
   PREV_QUESTION_BUTTON_ID,
+  SKIP_QUESTION_BUTTON_ID,
   USER_INTERFACE_ID,
   SCORE_VALUE_ID,
 } from '../constants.js';
@@ -11,6 +12,7 @@ import { createScoreElement } from '../views/scoreView.js';
 import { quizData } from '../data.js';
 
 let currentScore = Number(localStorage.getItem('currentScore')) || 0;
+const answersLS = JSON.parse(localStorage.getItem(`selected`)) || {};
 
 export const initQuestionPage = () => {
   localStorage.setItem('currentQuestion', quizData.currentQuestionIndex);
@@ -32,18 +34,26 @@ export const initQuestionPage = () => {
   }
 
   const correct = currentQuestion.correct;
-  const localStorageSelectedAnswer = localStorage.getItem(
-    `${quizData.currentQuestionIndex}question`
-  );
 
-  if (localStorageSelectedAnswer === null) {
+  const skipBtn = document.getElementById(SKIP_QUESTION_BUTTON_ID);
+
+  if (answersInLSCheck('selected') === null) {
+    skipBtn.addEventListener('click', skipQuestion);
+
     answersListElement.addEventListener('click', function clickHandler(evt) {
+      skipBtn.style.display = 'none';
+
       const usersAnswer = evt.target.dataset.key;
+
+      answersLS[quizData.currentQuestionIndex] = usersAnswer;
+      localStorage.setItem('selected', JSON.stringify(answersLS));
+
       answerCheck(usersAnswer, correct);
       answersListElement.removeEventListener('click', clickHandler);
     });
   } else {
-    showAnswer(correct, localStorageSelectedAnswer);
+    skipBtn.style.display = 'none';
+    showAnswer(correct, answersInLSCheck('selected'));
   }
 
   const scoreElement = createScoreElement(currentScore);
@@ -73,6 +83,18 @@ const nextQuestion = () => {
   initQuestionPage();
 };
 
+const skipQuestion = (evt) => {
+  evt.target.style.display = 'none';
+
+  const correctAnswer =
+    quizData.questions[quizData.currentQuestionIndex].correct;
+
+  answersLS[quizData.currentQuestionIndex] = correctAnswer;
+  localStorage.setItem('selected', JSON.stringify(answersLS));
+
+  correctAnswerStyle(correctAnswer);
+};
+
 const updateScoreValue = () => {
   currentScore++;
   document.getElementById(SCORE_VALUE_ID).innerHTML = currentScore;
@@ -80,12 +102,24 @@ const updateScoreValue = () => {
 };
 
 const answerCheck = (usersAnswer, correctAnswer) => {
-  localStorage.setItem(`${quizData.currentQuestionIndex}question`, usersAnswer);
   if (usersAnswer === correctAnswer) {
     correctAnswerStyle(correctAnswer);
     updateScoreValue();
   } else {
     incorrectAnswerStyle(usersAnswer, correctAnswer);
+  }
+};
+
+const answersInLSCheck = (key) => {
+  const localStorageSelectedAnswers = JSON.parse(localStorage.getItem(key));
+
+  let selectedAnswer;
+
+  if (localStorageSelectedAnswers === null) {
+    return null;
+  } else {
+    return (selectedAnswer =
+      localStorageSelectedAnswers[quizData.currentQuestionIndex] || null);
   }
 };
 
@@ -117,4 +151,9 @@ const incorrectAnswerStyle = (incorrect, correct) => {
 
   correctLi.style.backgroundColor = 'green';
   incorrectLi.style.backgroundColor = 'red';
+};
+
+const cleanAnswerInLS = (key, object) => {
+  object = {};
+  localStorage.setItem(key, JSON.stringify(object));
 };
