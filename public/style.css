@@ -8,8 +8,7 @@
   --light-black: #34495e;
   --light-green: #56cd888c;
   --white: #ffffff;
-  --green: #27ae60; /* Green for correct */
-  --red: #e74c3c; /* Red for incorrect */
+  --green: #27ae60;
   --border: 1px solid black;
 }
 
@@ -20,6 +19,7 @@
 }
 
 body {
+  overflow: hidden;
   background-color: var(--white);
   color: var(--primary-black);
   font-family: Arial, sans-serif;
@@ -28,7 +28,7 @@ body {
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: 28px;
   color: var(--primary-black);
   margin: 20px 0;
   text-align: center;
@@ -78,12 +78,14 @@ button {
   border-radius: 10px;
   position: fixed;
   background-color: var(--secondary-yellow);
-  width: 80%;
-  height: auto;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  max-width: 90%;
+  max-height: 90%;
+  height: 550px;
   text-align: center;
+  overflow: hidden;
 }
 
 .scrollable {
@@ -167,5 +169,94 @@ ul {
   }
   80% {
     border-radius: 40% 60% 42% 58% / 41% 51% 49% 59%;
+  }
+}
+#user-interface {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 800px;
+  max-width: 90%;
+}
+
+#answers-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+li {
+  width: 100%;
+  padding: 10px;
+  border: var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: var(--white);
+}
+
+li:hover {
+  background-color: var(--dark-black);
+  color: var(--white);
+  transition: 0.3s;
+}
+
+#answers-list > li {
+  flex: 40%;
+  margin: 0 0 10px 10px;
+}
+
+.score-container {
+  background-color: var(--primary-yellow);
+  padding: 16px;
+  margin: 20px 0;
+  text-align: center;
+  border: var(--border);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Inter', sans-serif;
+  color: var(--light-black);
+}
+
+.score-container:hover {
+  background-color: var(--secondary-yellow);
+}
+
+#score {
+  font-weight: 600;
+  color: var(--light-black);
+  font-size: 1.8rem;
+  letter-spacing: 0.5px;
+}
+
+@media screen and (max-width: 768px) {
+  h1 {
+    font-size: 30px;
+  }
+  .centered {
+    height: 100%;
+  }
+  #user-interface {
+    justify-content: center;
+  }
+  #start-quiz-button,
+  #next-question-button {
+    font-size: 20px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+  }
+  #answers-list {
+    gap: 10px;
+    flex-direction: column;
+  }
+  li {
+    font-size: 20px;
+    padding: 10px;
+  }
+  #answers-list > li {
+    flex: 100%;
+  }
+  .score-container {
+    font-size: 20px;
   }
 }
