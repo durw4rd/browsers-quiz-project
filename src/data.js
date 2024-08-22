@@ -20,6 +20,7 @@ export const quizData = {
         a: 'String',
         b: 'Number',
         c: 'Object',
+        d: 'Boolean',
       },
       correct: 'c',
       selected: null,
