@@ -79,7 +79,7 @@ const nextQuestion = () => {
     currentScore = 0;
     localStorage.removeItem('currentScore');
     localStorage.removeItem('currentQuestion');
-    
+
     for (let i = 0; i < 10; i++) {
       localStorage.removeItem(`${i}question`);
     }
