@@ -74,11 +74,15 @@ const nextQuestion = () => {
   if (quizData.currentQuestionIndex < 10) {
     initQuestionPage();
   } else {
+    initResultPage(currentScore);
     quizData.currentQuestionIndex = 0;
     currentScore = 0;
     localStorage.removeItem('currentScore');
     localStorage.removeItem('currentQuestion');
-    initResultPage();
+    
+    for (let i = 0; i < 10; i++) {
+      localStorage.removeItem(`${i}question`);
+    }
   }
 };
 

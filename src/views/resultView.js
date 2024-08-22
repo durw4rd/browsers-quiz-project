@@ -3,8 +3,7 @@ import { SCORE_VALUE_ID, RESTART_QUIZ_BUTTON_ID } from '../constants.js';
  * Create a Score element
  * @returns {Element}
  */
-export const createResultElement = () => {
-  const score = Number(localStorage.getItem('currentScore'));
+export const createResultElement = (score) => {
   const element = document.createElement('div');
   element.classList.add('result-container');
 
