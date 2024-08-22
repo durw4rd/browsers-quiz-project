@@ -171,6 +171,7 @@ ul {
     border-radius: 40% 60% 42% 58% / 41% 51% 49% 59%;
   }
 }
+<<<<<<< HEAD
 #user-interface {
   display: flex;
   flex-direction: column;
@@ -259,4 +260,65 @@ li:hover {
   .score-container {
     font-size: 20px;
   }
+=======
+.fade-in {
+  opacity: 0;
+  animation: fadeIn ease-in 1s forwards;
+}
+
+@keyframes fadeIn {
+  100% {
+    opacity: 1;
+  }
+}
+
+.loading {
+  font-size: 1.5em;
+  text-align: center;
+  margin-top: 20px;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+#name-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+#player-name-input {
+  padding: 20px 60px 20px 15px;
+  border-radius: 20px;
+  border: var(--border);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#name-form button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  padding: 10px 15px;
+  margin: 10px;
+  border: var(--border);
+  border-radius: 25px;
+  cursor: pointer;
+  background-color: var(--light-yellow);
+  color: var(--dark-black);
+  transition: background-color 0.3s;
+}
+
+#name-form button:hover {
+  background-color: #45a049;
+>>>>>>> welcome page enhancement
 }
