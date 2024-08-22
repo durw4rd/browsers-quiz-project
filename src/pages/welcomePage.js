@@ -1,5 +1,4 @@
 import { USER_INTERFACE_ID, START_QUIZ_BUTTON_ID } from '../constants.js';
-import { createWelcomeElement } from '../views/welcomeView.js';
 import { initQuestionPage } from './questionPage.js';
 
 let playerName = 'Player';
@@ -37,6 +36,7 @@ export const initWelcomePage = () => {
   welcomeMessage.textContent = `Welcome, ${playerName}!`;
 
   const gameDescription = document.createElement('p');
+  gameDescription.setAttribute('id', 'game-description');
   gameDescription.textContent =
     'This is a 10-question quiz game. Answer correctly to gain a score of 1 point per correct answer. Are you ready to challenge yourself and achieve the highest score?';
 
@@ -59,4 +59,8 @@ export const initWelcomePage = () => {
 const updateWelcomeMessage = () => {
   const welcomeMessage = document.getElementById('welcome-message');
   welcomeMessage.textContent = `Welcome, ${playerName}!`;
+};
+
+const startQuiz = () => {
+  initQuestionPage();
 };
