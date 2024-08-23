@@ -2,6 +2,7 @@ import { USER_INTERFACE_ID, START_QUIZ_BUTTON_ID } from '../constants.js';
 import { initQuestionPage } from './questionPage.js';
 
 let playerName = 'Player';
+let playerAvatar = 'tiger.png';
 
 export const initWelcomePage = () => {
   const userInterface = document.getElementById(USER_INTERFACE_ID);
@@ -18,6 +19,37 @@ export const initWelcomePage = () => {
   nameInput.setAttribute('placeholder', 'Enter your name');
   nameInput.setAttribute('id', 'player-name-input');
 
+  const avatarContainer = document.createElement('div');
+  avatarContainer.setAttribute('id', 'avatar-container');
+
+  const avatars = [
+    'tiger.png',
+    'bear.png',
+    'penguin.png',
+    'cat.png',
+    'monkey.png',
+  ];
+
+  avatars.forEach((avatar) => {
+    const avatarLabel = document.createElement('label');
+    const avatarImage = document.createElement('img');
+    avatarImage.setAttribute('src', `/public/${avatar}`);
+    avatarImage.setAttribute('alt', `Avatar ${avatar}`);
+    avatarImage.classList.add('avatar-image');
+
+    const avatarRadio = document.createElement('input');
+    avatarRadio.setAttribute('type', 'radio');
+    avatarRadio.setAttribute('name', 'avatar');
+    avatarRadio.setAttribute('value', avatar);
+    if (avatar === playerAvatar) {
+      avatarRadio.setAttribute('checked', 'checked');
+    }
+
+    avatarLabel.appendChild(avatarRadio);
+    avatarLabel.appendChild(avatarImage);
+    avatarContainer.appendChild(avatarLabel);
+  });
+
   const submitButton = document.createElement('button');
   submitButton.setAttribute('type', 'submit');
   submitButton.textContent = 'Submit';
@@ -25,10 +57,17 @@ export const initWelcomePage = () => {
   nameForm.addEventListener('submit', (event) => {
     event.preventDefault();
     playerName = nameInput.value.trim() || 'Player';
+    const selectedAvatar = document.querySelector(
+      'input[name="avatar"]:checked'
+    );
+    if (selectedAvatar) {
+      playerAvatar = selectedAvatar.value;
+    }
     updateWelcomeMessage();
   });
 
   nameForm.appendChild(nameInput);
+  nameForm.appendChild(avatarContainer);
   nameForm.appendChild(submitButton);
 
   const welcomeMessage = document.createElement('h1');
