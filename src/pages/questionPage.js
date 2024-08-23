@@ -2,17 +2,20 @@ import {
   ANSWERS_LIST_ID,
   NEXT_QUESTION_BUTTON_ID,
   PREV_QUESTION_BUTTON_ID,
+  FINISH_QUIZ_BUTTON_ID,
   USER_INTERFACE_ID,
   SCORE_VALUE_ID,
+  NEXT_MISSED_QUESTION_ID,
 } from '../constants.js';
 import { createQuestionElement } from '../views/questionView.js';
 import { createAnswerElement } from '../views/answerView.js';
 import { createScoreElement } from '../views/scoreView.js';
 import { quizData } from '../data.js';
+import { initFinishPage } from './finishPage.js';
 import { initResultPage } from './resultPage.js';
 import { createSkipBtn } from '../views/skipBtnView.js';
 
-let currentScore = Number(localStorage.getItem('currentScore')) || 0;
+export let currentScore = Number(localStorage.getItem('currentScore')) || 0;
 let answersLS = JSON.parse(localStorage.getItem(`selected`)) || {};
 
 export const initQuestionPage = () => {
@@ -38,13 +41,27 @@ export const initQuestionPage = () => {
 
   userInterface.appendChild(scoreElement);
 
-  document
-    .getElementById(PREV_QUESTION_BUTTON_ID)
-    .addEventListener('click', prevQuestion);
+  const prevBtn = document.getElementById(PREV_QUESTION_BUTTON_ID);
 
-  document
-    .getElementById(NEXT_QUESTION_BUTTON_ID)
-    .addEventListener('click', nextQuestion);
+  if (quizData.currentQuestionIndex === 0) {
+    prevBtn.style.display = 'none';
+  }
+
+  prevBtn.addEventListener('click', prevQuestion);
+
+  const nextBtn = document.getElementById(NEXT_QUESTION_BUTTON_ID);
+  const finishBtn = document.getElementById(FINISH_QUIZ_BUTTON_ID);
+  const nextMissedBtn = document.getElementById(NEXT_MISSED_QUESTION_ID);
+  finishBtn.style.display = 'none';
+  nextMissedBtn.style.display = 'none';
+
+  if (quizData.currentQuestionIndex === quizData.questions.length - 1) {
+    nextBtn.style.display = 'none';
+    finishBtn.style.display = 'inline-block';
+  }
+
+  nextBtn.addEventListener('click', nextQuestion);
+  finishBtn.addEventListener('click', finishQuiz);
 
   const correct = currentQuestion.correct;
 
@@ -85,18 +102,19 @@ const nextQuestion = () => {
 
   if (quizData.currentQuestionIndex < 10) {
     initQuestionPage();
+  }
+};
+
+const finishQuiz = () => {
+  const selectedAnswers = JSON.parse(localStorage.getItem('selected'));
+  const answersCount =
+    selectedAnswers === null ? 0 : Object.keys(selectedAnswers).length;
+
+  if (answersCount < 10) {
+    initFinishPage(answersCount);
   } else {
     initResultPage(currentScore);
-    quizData.currentQuestionIndex = 0;
-    currentScore = 0;
-    answersLS = {};
-    localStorage.removeItem('currentScore');
-    localStorage.removeItem('currentQuestion');
-    localStorage.removeItem('selected');
-
-    for (let i = 0; i < 10; i++) {
-      localStorage.removeItem(`${i}question`);
-    }
+    cleanLocalStorage();
   }
 };
 
@@ -130,13 +148,10 @@ const answerCheck = (usersAnswer, correctAnswer) => {
 const answersInLSCheck = (key) => {
   const localStorageSelectedAnswers = JSON.parse(localStorage.getItem(key));
 
-  let selectedAnswer;
-
   if (localStorageSelectedAnswers === null) {
     return null;
   } else {
-    return (selectedAnswer =
-      localStorageSelectedAnswers[quizData.currentQuestionIndex] || null);
+    return localStorageSelectedAnswers[quizData.currentQuestionIndex] || null;
   }
 };
 
@@ -166,4 +181,13 @@ const incorrectAnswerStyle = (incorrect, correct) => {
 
   correctLi.classList.add('correct');
   incorrectLi.classList.add('incorrect');
+};
+
+export const cleanLocalStorage = () => {
+  quizData.currentQuestionIndex = 0;
+  currentScore = 0;
+  answersLS = {};
+  localStorage.removeItem('currentScore');
+  localStorage.removeItem('currentQuestion');
+  localStorage.removeItem('selected');
 };

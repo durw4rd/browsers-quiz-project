@@ -53,7 +53,11 @@ button {
 
 #prev-question-button,
 #next-question-button,
-#skip-question-button {
+#skip-question-button,
+#finish-quiz-button,
+#finish-anyway-button,
+#answer-button,
+#next-missed-question-button {
   background-color: var(--dark-yellow);
 }
 
@@ -63,7 +67,11 @@ button {
 
 #start-quiz-button:hover,
 #prev-question-button:hover,
-#next-question-button:hover {
+#next-question-button:hover,
+#finish-quiz-button:hover,
+#finish-anyway-button:hover,
+#answer-button:hover,
+#next-missed-question-button:hover {
   color: var(--light-black);
   position: relative;
   top: -2px;
@@ -75,7 +83,11 @@ button {
 }
 
 #prev-question-button:hover,
-#next-question-button:hover {
+#next-question-button:hover,
+#finish-quiz-button:hover,
+#finish-anyway-button:hover,
+#answer-button:hover,
+#next-missed-question-button:hover {
   background: var(--light-yellow);
 }
 
@@ -265,7 +277,11 @@ li:hover {
   }
   #start-quiz-button,
   #prev-question-button,
-  #next-question-button {
+  #next-question-button,
+  #finish-quiz-button,
+  #finish-anyway-button,
+  #answer-button,
+  #next-missed-question-button {
     font-size: 20px;
     border-radius: 50px;
     margin-bottom: 20px;
