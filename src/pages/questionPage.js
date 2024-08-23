@@ -10,8 +10,10 @@ import { createAnswerElement } from '../views/answerView.js';
 import { createScoreElement } from '../views/scoreView.js';
 import { quizData } from '../data.js';
 import { initResultPage } from './resultPage.js';
+import { createSkipBtn } from '../views/skipBtnView.js';
 
 let currentScore = Number(localStorage.getItem('currentScore')) || 0;
+let answersLS = JSON.parse(localStorage.getItem(`selected`)) || {};
 
 export const initQuestionPage = () => {
   localStorage.setItem('currentQuestion', quizData.currentQuestionIndex);
@@ -32,21 +34,6 @@ export const initQuestionPage = () => {
     answersListElement.appendChild(answerElement);
   }
 
-  const correct = currentQuestion.correct;
-  const localStorageSelectedAnswer = localStorage.getItem(
-    `${quizData.currentQuestionIndex}question`
-  );
-
-  if (localStorageSelectedAnswer === null) {
-    answersListElement.addEventListener('click', function clickHandler(evt) {
-      const usersAnswer = evt.target.dataset.key;
-      answerCheck(usersAnswer, correct);
-      answersListElement.removeEventListener('click', clickHandler);
-    });
-  } else {
-    showAnswer(correct, localStorageSelectedAnswer);
-  }
-
   const scoreElement = createScoreElement(currentScore);
 
   userInterface.appendChild(scoreElement);
@@ -58,6 +45,31 @@ export const initQuestionPage = () => {
   document
     .getElementById(NEXT_QUESTION_BUTTON_ID)
     .addEventListener('click', nextQuestion);
+
+  const correct = currentQuestion.correct;
+
+  const skipBtn = createSkipBtn();
+  userInterface.appendChild(skipBtn);
+
+  if (answersInLSCheck('selected') === null) {
+    answersListElement.addEventListener('click', function clickHandler(evt) {
+      if (evt.target.nodeName !== 'LI') {
+        return;
+      }
+
+      const usersAnswer = evt.target.dataset.key;
+      skipBtn.disabled = true;
+
+      answersLS[quizData.currentQuestionIndex] = usersAnswer;
+      localStorage.setItem('selected', JSON.stringify(answersLS));
+
+      answerCheck(usersAnswer, correct);
+      answersListElement.removeEventListener('click', clickHandler);
+    });
+    skipBtn.addEventListener('click', skipQuestion);
+  } else {
+    showAnswer(correct, answersInLSCheck('selected'));
+  }
 };
 
 const prevQuestion = () => {
@@ -77,13 +89,27 @@ const nextQuestion = () => {
     initResultPage(currentScore);
     quizData.currentQuestionIndex = 0;
     currentScore = 0;
+    answersLS = {};
     localStorage.removeItem('currentScore');
     localStorage.removeItem('currentQuestion');
+    localStorage.removeItem('selected');
 
     for (let i = 0; i < 10; i++) {
       localStorage.removeItem(`${i}question`);
     }
   }
+};
+
+const skipQuestion = (evt) => {
+  evt.target.disabled = true;
+
+  const correctAnswer =
+    quizData.questions[quizData.currentQuestionIndex].correct;
+
+  answersLS[quizData.currentQuestionIndex] = correctAnswer;
+  localStorage.setItem('selected', JSON.stringify(answersLS));
+
+  correctAnswerStyle(correctAnswer);
 };
 
 const updateScoreValue = () => {
@@ -93,12 +119,24 @@ const updateScoreValue = () => {
 };
 
 const answerCheck = (usersAnswer, correctAnswer) => {
-  localStorage.setItem(`${quizData.currentQuestionIndex}question`, usersAnswer);
   if (usersAnswer === correctAnswer) {
     correctAnswerStyle(correctAnswer);
     updateScoreValue();
   } else {
     incorrectAnswerStyle(usersAnswer, correctAnswer);
+  }
+};
+
+const answersInLSCheck = (key) => {
+  const localStorageSelectedAnswers = JSON.parse(localStorage.getItem(key));
+
+  let selectedAnswer;
+
+  if (localStorageSelectedAnswers === null) {
+    return null;
+  } else {
+    return (selectedAnswer =
+      localStorageSelectedAnswers[quizData.currentQuestionIndex] || null);
   }
 };
 
@@ -110,14 +148,12 @@ const showAnswer = (correct, selected) => {
   }
 };
 
-/* TODO add correct/incorrect styles */
-
 const correctAnswerStyle = (correct) => {
   const correctLi = document.querySelector(
     `#answers-list li[data-key = ${correct}]`
   );
 
-  correctLi.style.backgroundColor = 'green';
+  correctLi.classList.add('correct');
 };
 
 const incorrectAnswerStyle = (incorrect, correct) => {
@@ -128,6 +164,6 @@ const incorrectAnswerStyle = (incorrect, correct) => {
     `#answers-list li[data-key = ${correct}]`
   );
 
-  correctLi.style.backgroundColor = 'green';
-  incorrectLi.style.backgroundColor = 'red';
+  correctLi.classList.add('correct');
+  incorrectLi.classList.add('incorrect');
 };
