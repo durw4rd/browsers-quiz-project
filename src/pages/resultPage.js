@@ -5,7 +5,11 @@ import { initWelcomePage } from './welcomePage.js';
 export const initResultPage = (score) => {
   const userInterface = document.getElementById(USER_INTERFACE_ID);
   userInterface.innerHTML = '';
-  const { playerName, playerAvatar } = JSON.parse(localStorage.getItem('user'));
+
+  const user = JSON.parse(localStorage.getItem('user'));
+  const playerName = user?.playerName || 'Player';
+  const playerAvatar = user?.playerAvatar || 'tiger.png';
+
   const resultElement = createResultElement(score, playerName, playerAvatar);
   userInterface.appendChild(resultElement);
 
