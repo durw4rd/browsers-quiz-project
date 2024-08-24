@@ -33,7 +33,7 @@ export const initWelcomePage = () => {
   avatars.forEach((avatar) => {
     const avatarLabel = document.createElement('label');
     const avatarImage = document.createElement('img');
-    avatarImage.setAttribute('src', `/public/${avatar}`);
+    avatarImage.setAttribute('src', `./public/${avatar}`);
     avatarImage.setAttribute('alt', `Avatar ${avatar}`);
     avatarImage.classList.add('avatar-image');
 
