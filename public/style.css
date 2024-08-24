@@ -57,7 +57,8 @@ button {
 #finish-quiz-button,
 #finish-anyway-button,
 #answer-button,
-#next-missed-question-button {
+#next-missed-question-button,
+#restart-quiz-button {
   background-color: var(--dark-yellow);
 }
 
@@ -79,7 +80,8 @@ button {
 #finish-quiz-button:hover,
 #finish-anyway-button:hover,
 #answer-button:hover,
-#next-missed-question-button:hover {
+#next-missed-question-button:hover,
+#restart-quiz-button:hover {
   color: var(--light-black);
   position: relative;
   top: -2px;
@@ -95,7 +97,8 @@ button {
 #finish-quiz-button:hover,
 #finish-anyway-button:hover,
 #answer-button:hover,
-#next-missed-question-button:hover {
+#next-missed-question-button:hover,
+#restart-quiz-button:hover {
   background: var(--light-yellow);
 }
 
@@ -268,7 +271,10 @@ li:hover {
 
 .score-container {
   background-color: var(--primary-yellow);
-  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
   margin: 20px 0;
   text-align: center;
   border: var(--border);
@@ -306,7 +312,8 @@ li:hover {
   #finish-quiz-button,
   #finish-anyway-button,
   #answer-button,
-  #next-missed-question-button {
+  #next-missed-question-button,
+  #restart-quiz-button:hover {
     font-size: 20px;
     border-radius: 50px;
     margin-bottom: 20px;
@@ -411,11 +418,18 @@ li:hover {
   padding: 5px;
 }
 
-.avatar-image {
+.avatar-image,
+.question-avatar-image {
   width: 60px;
   height: 60px;
   object-fit: cover;
   transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.question-avatar-image {
+  width: 30px;
+  height: 30px;
+  display: inline;
 }
 #avatar-container label:hover .avatar-image {
   transform: scale(1.1);
