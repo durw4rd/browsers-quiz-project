@@ -6,6 +6,7 @@ import {
   USER_INTERFACE_ID,
   SCORE_VALUE_ID,
   NEXT_MISSED_QUESTION_ID,
+  PROGRESS_BAR_ID,
 } from '../constants.js';
 import { createQuestionElement } from '../views/questionView.js';
 import { createAnswerElement } from '../views/answerView.js';
@@ -14,6 +15,7 @@ import { quizData } from '../data.js';
 import { initFinishPage } from './finishPage.js';
 import { initResultPage } from './resultPage.js';
 import { createSkipBtn } from '../views/skipBtnView.js';
+import { createProgressBarElement } from '../views/progressBarView.js';
 
 export let currentScore = Number(localStorage.getItem('currentScore')) || 0;
 let answersLS = JSON.parse(localStorage.getItem(`selected`)) || {};
@@ -23,6 +25,11 @@ export const initQuestionPage = () => {
 
   const userInterface = document.getElementById(USER_INTERFACE_ID);
   userInterface.innerHTML = '';
+
+  const progressBar = createProgressBarElement();
+  userInterface.appendChild(progressBar);
+  const progressLine = document.getElementById(PROGRESS_BAR_ID);
+  showProgress(progressBar, progressLine, answersLS);
 
   const currentQuestion = quizData.questions[quizData.currentQuestionIndex];
 
@@ -76,7 +83,7 @@ export const initQuestionPage = () => {
 
       const usersAnswer = evt.target.dataset.key;
       skipBtn.disabled = true;
-
+      updateProgressBar(progressBar, progressLine, answersLS);
       answersLS[quizData.currentQuestionIndex] = usersAnswer;
       localStorage.setItem('selected', JSON.stringify(answersLS));
 
@@ -87,6 +94,23 @@ export const initQuestionPage = () => {
   } else {
     showAnswer(correct, answersInLSCheck('selected'));
   }
+};
+
+const showProgress = (bar, line, storageData) => {
+  const barWidth = bar.offsetWidth;
+  const progressWidth = barWidth / 10;
+  const progress = Object.keys(storageData).length;
+  line.style.width = `${progress * progressWidth}px`;
+  line.style.transition = 'none';
+};
+
+const updateProgressBar = (bar, line, storageData) => {
+  const barWidth = bar.offsetWidth;
+  const progressWidth = barWidth / 10;
+  const progress = Object.keys(storageData).length + 1;
+
+  line.style.width = `${progress * progressWidth}px`;
+  line.style.transition = 'width 0.5s ease';
 };
 
 const prevQuestion = () => {

@@ -17,3 +17,4 @@ export const ANSWER_BUTTON_ID = 'answer-button';
 export const SKIP_QUESTION_BUTTON_ID = 'skip-question-button';
 export const NEXT_MISSED_QUESTION_ID = 'next-missed-question-button';
 export const SCORE_VALUE_ID = 'score';
+export const PROGRESS_BAR_ID = 'progress-bar';
