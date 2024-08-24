@@ -3,7 +3,7 @@ import { SCORE_VALUE_ID, RESTART_QUIZ_BUTTON_ID } from '../constants.js';
  * Create a Score element
  * @returns {Element}
  */
-export const createResultElement = (score) => {
+export const createResultElement = (score, playerName, playerAvatar) => {
   const element = document.createElement('div');
   element.classList.add('result-container');
 
@@ -23,7 +23,13 @@ export const createResultElement = (score) => {
   }
 
   element.innerHTML = String.raw`
-    <h1>Quiz Results</h1>
+   <h2>
+      <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+        <img src="./public/${playerAvatar}" alt="User avatar" class="avatar-image">
+        <div class="result-user">${playerName}</div>
+        <div class="result-quiz-text">Quiz Results</div>
+      </div>
+    </h2>
     <p>${resultText}</p>
     <p>Your score: <span id="${SCORE_VALUE_ID}">${score}</span> / 10</p>
     <button id="${RESTART_QUIZ_BUTTON_ID}">Try Again</button>

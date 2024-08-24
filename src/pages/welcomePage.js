@@ -66,6 +66,8 @@ export const initWelcomePage = () => {
     updateWelcomeMessage();
   });
 
+  localStorage.setItem('user', JSON.stringify({ playerName, playerAvatar }));
+
   nameForm.appendChild(nameInput);
   nameForm.appendChild(avatarContainer);
   nameForm.appendChild(submitButton);
