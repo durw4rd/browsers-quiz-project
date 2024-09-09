@@ -296,15 +296,24 @@ li:hover {
   letter-spacing: 0.5px;
 }
 
-@media screen and (max-width: 768px) {
-  h1 {
-    font-size: 30px;
+@media only screen and (max-width: 767px) {
+  .organic-shape.four {
+    display: none;
   }
-  .centered {
-    height: 100%;
+  h1 {
+    font-size: 25px;
   }
   #user-interface {
-    justify-content: center;
+    width: 90%;
+    height: 90%;
+  }
+  label .avatar-image,
+  .question-avatar-image {
+    width: 50px;
+    height: 50px;
+  }
+  #name-form #avatar-container {
+    gap: 5px;
   }
   #start-quiz-button,
   #prev-question-button,
@@ -314,23 +323,30 @@ li:hover {
   #answer-button,
   #next-missed-question-button,
   #restart-quiz-button:hover {
-    font-size: 20px;
+    font-size: 15px;
     border-radius: 50px;
     margin-bottom: 20px;
+  }
+  .centered {
+    overflow: scroll;
   }
   #answers-list {
     gap: 10px;
     flex-direction: column;
   }
   li {
-    font-size: 20px;
+    font-size: 16px;
     padding: 10px;
   }
   #answers-list > li {
     flex: 100%;
   }
+  .question-avatar-image {
+    margin-top: 4px;
+  }
   .score-container {
-    font-size: 20px;
+    font-size: 14px;
+    gap: 5px;
   }
 }
 .fade-in {
